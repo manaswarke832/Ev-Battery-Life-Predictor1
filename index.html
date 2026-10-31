@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrated EV Battery Degradation Predictor Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 1. TOP HEADING & TITLE -->
+        <header>
+            <h1>🔋 Integrated EV Battery Degradation Predictor Dashboard</h1>
+            <p>This tool analyzes EV Battery State of Health (SoH) based on operational fleet telemetry records.</p>
+        </header>
+
+        <!-- 2. INPUT FIELDS LAYOUT (Step-1) -->
+        <main>
+            <h2 class="section-title">Step-1: Input Operational Fleet Telemetry Records</h2>
+
+            <div class="grid-2">
+                <!-- Left Column -->
+                <div class="column">
+                    <div class="form-group">
+                        <label for="carModel">Vehicle Architecture Variant</label>
+                        <select id="carModel">
+                            <option value="Tesla Model 3" selected>Tesla Model 3</option>
+                            <option value="Ford Mustang Mach-E">Ford Mustang Mach-E</option>
+                            <option value="Hyundai Ioniq 5">Hyundai Ioniq 5</option>
+                            <option value="BYD Atto 3">BYD Atto 3</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="batteryType">Battery Chemistry Profile</label>
+                        <select id="batteryType">
+                            <option value="NMC" selected>NMC</option>
+                            <option value="LFP">LFP</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="drivingStyle">Driver Behavior Logging Classification</label>
+                        <select id="drivingStyle">
+                            <option value="Aggressive">Aggressive</option>
+                            <option value="Conservative">Conservative</option>
+                            <option value="Moderate" selected>Moderate</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vehicleAge">
+                            <span>Active Operation Lifespan Duration (Months)</span>
+                            <span class="slider-val" id="vehicleAgeVal">36 Months</span>
+                        </label>
+                        <input type="range" id="vehicleAge" min="1" max="120" value="36" step="1">
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="column">
+                    <div class="form-group">
+                        <label for="chargingCycles">Total Lifecycle Charging Events Counter</label>
+                        <input type="number" id="chargingCycles" min="0" max="3000" value="400" step="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="temperature">Average Thermal Ambient Operating Temp (°C)</label>
+                        <input type="number" id="temperature" min="-20.0" max="60.0" value="25.0" step="0.5">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fastCharge">
+                            <span>High-Voltage Fast Charging Utilization Share</span>
+                            <span class="slider-val" id="fastChargeVal">0.35</span>
+                        </label>
+                        <input type="range" id="fastCharge" min="0.0" max="1.0" value="0.35" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dischargeSpeed">Average Load Discharge Velocity Speed</label>
+                        <input type="number" id="dischargeSpeed" min="0.0" max="15.0" value="1.5" step="0.1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standalone Input Field Below Columns -->
+            <div class="form-group full-width">
+                <label for="internalResistance">Cell Pack Internal Resistance Rating (Ω Metric)</label>
+                <input type="number" id="internalResistance" min="0.0000" max="0.2000" value="0.0340" step="0.0010">
+            </div>
+
+            <!-- 3. ACTION BUTTON -->
+            <button id="analyzeBtn" class="btn-analyze" type="button">
+                <span>Analyze</span>
+            </button>
+
+            <!-- 4. ANALYSIS REPORT -->
+            <section id="reportSection" class="report-section hidden">
+                <h3 class="report-title">Analysis Report</h3>
+
+                <div class="metric-card">
+                    <div class="metric-label">Predicted State of Health (SoH)</div>
+                    <div class="metric-value" id="metricVal">0.00%</div>
+                </div>
+
+                <div id="diagnosisBox" class="alert-box"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Machine Learning Model Data and Client-Side Inference Engine -->
+    <script src="model_data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
+
